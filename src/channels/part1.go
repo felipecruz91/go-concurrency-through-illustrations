@@ -15,7 +15,10 @@ func main() {
 
 		for _, item := range source {
 			if item == "ore" {
+				fmt.Println("[Finder] - Ore found!")
 				oreChan <- "ore"
+			} else {
+				fmt.Println("[Finder] - :(")
 			}
 		}
 	}(theMine)
@@ -27,12 +30,12 @@ func main() {
 		// The only way to stop the go routine from blocking after all sends have occurred is by
 		// closing the channel with ‘close(channel)’
 		for foundOre := range oreChan {
-			fmt.Println("Miner received: " + foundOre)
+			fmt.Println("[Miner] - Received: " + foundOre)
 
 			// Simulate time to mine the ore
-			time.Sleep(5 * time.Second)
+			time.Sleep(2 * time.Second)
 
-			fmt.Println("Mine op. complete.")
+			fmt.Println("[Miner] - Mine op. complete.")
 
 			minedOreChan <- "minedOre"
 		}
@@ -43,9 +46,9 @@ func main() {
 	go func() {
 
 		for smeltedOre := range minedOreChan {
-			fmt.Println("Smelter: " + smeltedOre)
+			fmt.Println("[Smelter] - Received " + smeltedOre)
 		}
 	}()
 
-	<-time.After(30 * time.Second)
+	<-time.After(10 * time.Second)
 }
