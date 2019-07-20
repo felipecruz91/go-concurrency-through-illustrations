@@ -28,6 +28,12 @@ func main() {
 		// closing the channel with ‘close(channel)’
 		for foundOre := range oreChan {
 			fmt.Println("Miner received: " + foundOre)
+
+			// Simulate time to mine the ore
+			time.Sleep(5 * time.Second)
+
+			fmt.Println("Mine op. complete.")
+
 			minedOreChan <- "minedOre"
 		}
 
@@ -41,5 +47,5 @@ func main() {
 		}
 	}()
 
-	<-time.After(5 * time.Second)
+	<-time.After(30 * time.Second)
 }
